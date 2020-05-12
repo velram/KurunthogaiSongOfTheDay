@@ -31,6 +31,7 @@ song_paragraphs = soup.find_all('dl')
 song_count = 1 #variable to track what line you are on
 for song_paragraph in song_paragraphs:
 	for song_line in song_paragraph.find_all('dd'):
+		#TODO - replace find_all() with find() - use null chk 
 	 	print(song_line.text)
 	 	#print("song_count : " , song_count)
 song_count +=1
