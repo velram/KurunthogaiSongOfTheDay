@@ -4,6 +4,8 @@ import urllib.request
 import time
 from bs4 import BeautifulSoup
 
+#TODO : fetch multiple URLs for various pages & 
+# dynamic rotation of URLs
 # Set the URL you want to webscrape from
 url = 'https://ta.wikisource.org/s/s6'
 
@@ -30,8 +32,14 @@ song_paragraphs = soup.find_all('dl')
 
 song_count = 1 #variable to track what line you are on
 for song_paragraph in song_paragraphs:
-	for song_line in song_paragraph.find_all('dd'):
+	#for song_line in song_paragraph.find_all('dd'):
 		#TODO - replace find_all() with find() - use null chk 
-	 	print(song_line.text)
+		song_line_count = len(song_paragraph.find_all('dd'))
+		#Uncomment to debug
+		#print("Song line count is : ", song_line_count)
+		if(song_paragraph != None and song_line_count >= 4):
+			#print("\n\n Song paragraph is : \n\n " + song_paragraph.text + " \n\n")
+			print("\n\n" + song_paragraph.text)
+		#Uncomment to debug
 	 	#print("song_count : " , song_count)
 song_count +=1
