@@ -7,7 +7,8 @@ from bs4 import BeautifulSoup
 #TODO : fetch multiple URLs for various pages & 
 # dynamic rotation of URLs
 # Set the URL you want to webscrape from
-url = 'https://ta.wikisource.org/s/s6'
+#url = 'https://ta.wikisource.org/s/s6' # Song 1 to 10 
+url = 'https://ta.wikisource.org/s/wp' #Song 41 to 50
 
 # Connect to the URL
 response = requests.get(url)
@@ -22,24 +23,42 @@ soup = BeautifulSoup(response.text, "html.parser")
 #print(soup.find_all('dd'))
 #soup.find_all('p')[0].get_text()
 
-song_paragraphs = soup.find_all('dl')
+songs = soup.find_all('dl')
 
 #Approach 
 # Fetch the dl tag.
 #Fetch the first dd tag only - for song 
 #Fetch 
 
-
-song_count = 1 #variable to track what line you are on
-for song_paragraph in song_paragraphs:
-	#for song_line in song_paragraph.find_all('dd'):
+#TODO - move this code to exclusive method - get_song()
+for song in songs:
 		#TODO - replace find_all() with find() - use null chk 
-		song_line_count = len(song_paragraph.find_all('dd'))
+		song_line_count = len(song.find_all('dd'))
 		#Uncomment to debug
 		#print("Song line count is : ", song_line_count)
-		if(song_paragraph != None and song_line_count >= 4):
-			#print("\n\n Song paragraph is : \n\n " + song_paragraph.text + " \n\n")
-			print("\n\n" + song_paragraph.text)
+		if(song != None and song_line_count >= 4):
+			#print("\n\n Song paragraph is : \n\n " + song.text + " \n\n")
+			print("\n\n" + song.text)
+			#print("")
+
+		dt_count = len(song.find_all('dt'))
+		dd_count = len(song.find_all('dd'))
 		#Uncomment to debug
-	 	#print("song_count : " , song_count)
-song_count +=1
+		#print("Song line count is : ", song_line_count)
+		if(song != None and dt_count == 1 and dd_count == 1):
+			#print("\n\n Song paragraph is : \n\n " + song.text + " \n\n")
+			author_name = song.find('dd').text
+			print("\n~ ", author_name)
+
+
+#TODO find author name (for the 1-10 songs only) - remove this code later
+for song in songs:
+		#TODO - replace find_all() with find() - use null chk 
+		if(song != None 
+			and song.find('dd') != None 
+			and song.find('dd').find('dl') != None 
+			and song.find('dd').find('dl').find('dd') != None  
+			and song.find('dd').find('dl').find('dd').find('dl') != None
+			and song.find('dd').find('dl').find('dd').find('dl').find('dd') != None):
+			song_author = song.find('dd').find('dl').find('dd').find('dl').find('dd')
+			#print("song author is : ", song_author.text)

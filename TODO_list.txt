@@ -1,0 +1,13 @@
+TODO - list 
+
+Approach - break-up 
+
+1. Scrap poem's paragraphs - DONE 
+2. Scrap poem's author names - Partially done ()
+    - Need to edit the wiki source structure
+3. Test tweet - random text (using Twitter API)
+4. Tweet the poem - 
+5. Enter the index / number to print the poem
+4. Store the scrapped songs to some source (file / DB / website)
+5. Fetch the poem based on index / number entered manually
+6. Randomize the poem index input
