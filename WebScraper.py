@@ -10,6 +10,7 @@ import re
 # Set the URL you want to webscrape from
 #url = 'https://ta.wikisource.org/s/s6' # Song 1 to 10 
 url = 'https://ta.wikisource.org/s/wp' #Song 41 to 50
+#url = 'https://ta.wikisource.org/s/zc' #Song 101 to 110
 
 # Connect to the URL
 response = requests.get(url)
