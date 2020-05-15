@@ -3,6 +3,7 @@ import requests
 import urllib.request
 import time
 from bs4 import BeautifulSoup
+import re 
 
 #TODO : fetch multiple URLs for various pages & 
 # dynamic rotation of URLs
@@ -22,6 +23,23 @@ soup = BeautifulSoup(response.text, "html.parser")
 #print("before printing soup")
 #print(soup.find_all('dd'))
 #soup.find_all('p')[0].get_text()
+
+#TODO - Scrap song number			
+# Approach 
+#  1. Tag hierarchy : h2 -> span -> class "mw_headline" -> id "பாடல்_"
+#
+
+headings = soup.find_all('h2')
+
+for heading in headings:
+	song_title = heading.find('span', class_ = 'mw-headline')
+	if(None != song_title and None != re.findall(r'\d+', song_title.text)):
+		song_number_text = re.findall(r'\d+', song_title.text)
+		song_number = list(map(int, song_number_text))[0]
+		print(song_number)
+		#print(song_title.text)
+
+
 
 songs = soup.find_all('dl')
 
@@ -49,6 +67,9 @@ for song in songs:
 			#print("\n\n Song paragraph is : \n\n " + song.text + " \n\n")
 			author_name = song.find('dd').text
 			print("\n~ ", author_name)
+			#print("")
+
+
 
 
 #TODO find author name (for the 1-10 songs only) - remove this code later
