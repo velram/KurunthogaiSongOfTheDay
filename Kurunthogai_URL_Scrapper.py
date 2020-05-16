@@ -4,7 +4,7 @@ import urllib.request
 import time
 from bs4 import BeautifulSoup
 import re 
-
+import kurunthogai_beautiful_soup_tools
 
 WIKISOURCE_URL_ROOT = 'https://ta.wikisource.org'
 
@@ -38,9 +38,11 @@ def get_beautiful_soup_object(page_url):
 
 def get_kurunthogai_page_links(first_page_url):
 
-	soup_object = get_beautiful_soup_object(first_page_url)
 	next_song_absolute_url = first_page_url
 	kurunthogai_song_urls = []
+	kurunthogai_bs_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools() 
+	soup_object = get_beautiful_soup_object(first_page_url)
+
 	while None != next_song_absolute_url:
 		next_song_list_container = soup_object.find('span', attrs={"class" : "searchaux", "id" :"headernext"})
 		if(None != next_song_list_container and None != next_song_list_container.find('a')):

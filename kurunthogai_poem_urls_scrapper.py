@@ -17,7 +17,7 @@ FIRST_KURUNTHOGAI_PAGE_URL = 'https://ta.wikisource.org/s/s6' # Song 1 to 10
 
 
 class Kurunthogai_URL_Scrapper:
-	def get_beautiful_soup_object(self,page_url):
+	def get_beautiful_soup_object(self, page_url):
 		# Connect to the URL
 		response = requests.get(page_url)
 
@@ -39,6 +39,7 @@ class Kurunthogai_URL_Scrapper:
 		soup_object = self.get_beautiful_soup_object(first_page_url)
 		next_song_absolute_url = first_page_url
 		kurunthogai_song_urls = []
+		kurunthogai_song_urls.append(first_page_url)
 		while None != next_song_absolute_url:
 			next_song_list_container = soup_object.find('span', attrs={"class" : "searchaux", "id" :"headernext"})
 			if(None != next_song_list_container and None != next_song_list_container.find('a')):
