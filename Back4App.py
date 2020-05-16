@@ -28,9 +28,9 @@ class Back4AppTools():
         data = requests.get(url, headers=header)
         json_response = data.json()
 
-        results = json_response['results'][0]
-        poem_with_author = ('பாடல் : %s \n ~ %s' %
-                    (results['KurunthogaiPoem'], results['PoemAuthor']))
+        kurunthogai_poems = json_response['results'][0]
+        poem_with_author = ('%s \n ~ %s' %
+                    (kurunthogai_poems['poem_text'], kurunthogai_poems['poem_author']))
         #update_status(results['objectId'])
         tags = '\n#தினமொரு_குறுந்தொகை'
         return poem_with_author+tags

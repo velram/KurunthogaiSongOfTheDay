@@ -5,19 +5,20 @@ import kurunthogai_beautiful_soup_tools
 
 FIRST_KURUNTHOGAI_PAGE_URL = 'https://ta.wikisource.org/s/s6' # Song 1 to 10 
 
-#back4app_tools = Back4App.Back4AppTools()
-#kurunthogai_song = back4app_tools.get_song()
-
 kurunthogai_url_scrapper = kurunthogai_poem_urls_scrapper.Kurunthogai_URL_Scrapper()
 kurunthogai_urls = kurunthogai_url_scrapper.get_kurunthogai_page_links(FIRST_KURUNTHOGAI_PAGE_URL)
 
-#print("kurunthogai_song : \n ", kurunthogai_song)
 #print("Kurunthogai URLs : ", kurunthogai_urls)
 
 for kurunthogai_poem_url in kurunthogai_urls:
-	print("poem URL : "+kurunthogai_poem_url)
+	#print("poem URL : "+kurunthogai_poem_url)
 	beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
 	kurunthogai_bs = beautiful_soup_tools.get_beautiful_soup_object(kurunthogai_poem_url)
 	kurunthogai_poem_scrapper_tool = kurunthogai_poems_scrapper.Kurunthogai_Poems_Scrapper_Tools()
 	kurunthogai_poems = kurunthogai_poem_scrapper_tool.get_songs(kurunthogai_bs)
-	print("Inside main page : \n ",kurunthogai_poems)
+	#print("Inside main page : \n ",kurunthogai_poems)
+
+
+back4app_tools = Back4App.Back4AppTools()
+kurunthogai_song = back4app_tools.get_song()
+print("பாடல் : \n ", kurunthogai_song)
