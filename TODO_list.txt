@@ -3,14 +3,14 @@ TODO - list
 Approach - break-up 
 
 1. Scrap poem's paragraphs - DONE 
-2. Scrap poem's author names - Partially done ()
+2. Scrap poem's author names - Partially done & on hold
     - Need to edit the wiki source structure
-3. Scrap poem's title - In progress
-4. Scrap poem's index
-
-. Test tweet - random text (using Twitter API)
-. Tweet the poem - 
-. Enter the index / number to print the poem
-. Store the scrapped songs to some source (file / DB / website)
-. Fetch the poem based on index / number entered manually
-. Randomize the poem index input
+    - Create POJO type class for songs
+3. Scrap poem's title - On hold
+4. Scrap poem's index - On hold
+5. Store the scrapped songs to some source (file / DB / website) - In progress
+6. Enter the index / Fetch random number to print the poem
+7. Fetch the poem based on index / number entered manually
+8. Randomize the poem index input
+9. Test tweet - random text (using Twitter API)
+10. Tweet the poem -
