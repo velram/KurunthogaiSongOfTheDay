@@ -1,6 +1,8 @@
 import requests
 import json
-#from local_settings import *
+
+
+# from local_settings import *
 
 
 def get_headers():
@@ -12,7 +14,7 @@ def get_headers():
 
 
 def update_status(objectId):
-    url = "https://parseapi.back4app.com/classes/WordCorpus/"+objectId
+    url = "https://parseapi.back4app.com/classes/WordCorpus/" + objectId
     payload = {'status': True}
     header = get_headers()
 
@@ -30,10 +32,10 @@ class Back4AppTools():
 
         kurunthogai_poems = json_response['results'][0]
         poem_with_author = ('%s \n ~ %s' %
-                    (kurunthogai_poems['poem_text'], kurunthogai_poems['poem_author']))
-        #update_status(results['objectId'])
+                            (kurunthogai_poems['poem_text'], kurunthogai_poems['poem_author']))
+        # update_status(results['objectId'])
         tags = '\n#தினமொரு_குறுந்தொகை'
-        return poem_with_author+tags
+        return poem_with_author + tags
 
 
 if __name__ == "__main__":
