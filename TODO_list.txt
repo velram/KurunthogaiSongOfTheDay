@@ -8,9 +8,10 @@ Approach - break-up
     - Create POJO type class for songs
 3. Scrap poem's title - On hold
 4. Scrap poem's index - On hold
-5. Store the scrapped songs to some source (file / DB / website) - In progress
-6. Enter the index / Fetch random number to print the poem
-7. Fetch the poem based on index / number entered manually
-8. Randomize the poem index input
-9. Test tweet - random text (using Twitter API)
-10. Tweet the poem -
+5. Store the scrapped songs to some source (file / DB / website) - DONE
+6. Enter the index / Fetch random number to print the poem - on hold
+7. Fetch the poem based on index / number entered manually - on hold
+8. Randomize the poem index input - On hold
+9. Get the poems from Parse API DB - In progress
+. Test tweet - random text (using Twitter API)
+. Tweet the poem -
