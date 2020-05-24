@@ -12,7 +12,7 @@ import re
 # url = 'https://ta.wikisource.org/s/s6' # Song 1 to 10
 
 class Kurunthogai_Poems_Scrapper_Tools:
-    def get_songs(self, beautiful_soup):
+    def get_all_songs(self, beautiful_soup):
         song_paragraphs = beautiful_soup.find_all('dl')
 
         # Approach
