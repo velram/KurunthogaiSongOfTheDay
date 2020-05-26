@@ -13,5 +13,5 @@ Approach - break-up
 7. Fetch the poem based on index / number entered manually - on hold
 8. Randomize the poem index input - On hold
 9. Get the poems from Parse API DB - In progress
-. Test tweet - random text (using Twitter API)
-. Tweet the poem -
+. Test tweet - random text (using Twitter API) - DONE
+. Tweet the poem - DONE
