@@ -4,9 +4,10 @@ import json
 # from local_settings import *
 
 KURUNTHOGAI_POEMS_PARSE_URL = "https://parseapi.back4app.com/classes/KurunthogaiPoems"
-POEM_TEXT_KEY = 'PoemText'
-POEM_INDEX_KEY = 'PoemIndex'
-POEM_AUTHOR_KEY = 'PoemAuthor'
+POEM_TEXT_KEY = 'poem_text'
+POEM_INDEX_KEY = 'poem_id'
+POEM_AUTHOR_KEY = 'poem_author'
+POEM_TWEETED_KEY = 'is_tweeted'
 
 DAILY_ONE_KURUNTHOGAI_HASHTAG = '#தினமொரு_குறுந்தொகை'
 
@@ -42,7 +43,8 @@ def get_kurunthogai_json(poem_index, poem_text, poem_author):
     kurunthogai_json = {
         POEM_INDEX_KEY: poem_index,
         POEM_TEXT_KEY: poem_text,
-        POEM_AUTHOR_KEY: poem_author
+        POEM_AUTHOR_KEY: poem_author,
+        POEM_TWEETED_KEY: False
     }
     return kurunthogai_json
 
@@ -66,6 +68,7 @@ class Back4AppTools():
     def populate_kurunthogai_in_db(self, poem_payload):
         # poem_payload = get_sample_poem()
         if None != poem_payload:
+            print("\n json dump : ", json.dumps(poem_payload))
             kurunthogai_request_headers = get_headers()
             create_kurunthogai_status = requests.post(KURUNTHOGAI_POEMS_PARSE_URL,
                                                       data=json.dumps(poem_payload),
