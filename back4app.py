@@ -2,13 +2,16 @@ import requests
 import json
 
 # from local_settings import *
+RESULTS_KEY = 'results'
 
-KURUNTHOGAI_POEMS_PARSE_URL = "https://parseapi.back4app.com/classes/KurunthogaiPoems"
+KURUNTHOGAI_POEMS_DB_URL = "https://parseapi.back4app.com/classes/KurunthogaiPoems"
 POEM_TEXT_KEY = 'poem_text'
 POEM_INDEX_KEY = 'poem_id'
 POEM_AUTHOR_KEY = 'poem_author'
 POEM_TWEETED_KEY = 'is_tweeted'
-
+OBJECT_ID_KEY = 'objectId'
+SLASH_DELIMITER = '/'
+KURUNTHOGAI_NON_TWEETED_FILTER_QUERY = '?where=%7B%22is_tweeted%22%3Afalse%7D'
 DAILY_ONE_KURUNTHOGAI_HASHTAG = '#தினமொரு_குறுந்தொகை'
 
 
@@ -20,14 +23,15 @@ def get_headers():
     }
 
 
-def update_status(object_id):
-    url = "https://parseapi.back4app.com/classes/WordCorpus/" + object_id
-    payload = {'status': True}
-    header = get_headers()
-
-    response = requests.put(url, data=json.dumps(payload), headers=header)
-    print(response.text)
-    return response.status_code
+def update_is_tweeted(kurunthogai_poem_object_id):
+    kurunthogai_update_url = KURUNTHOGAI_POEMS_DB_URL + SLASH_DELIMITER + kurunthogai_poem_object_id
+    kurunthogai_update_payload = {POEM_TWEETED_KEY: True}
+    kurunthogai_req_headers = get_headers()
+    kurunthogai_db_update_response = requests.put(kurunthogai_update_url,
+                                                  data=json.dumps(kurunthogai_update_payload),
+                                                  headers=kurunthogai_req_headers)
+    print("Kurunthogai DB update status : ", kurunthogai_db_update_response)
+    return kurunthogai_db_update_response
 
 
 def get_sample_poem():
@@ -50,19 +54,21 @@ def get_kurunthogai_json(poem_index, poem_text, poem_author):
 
 
 class Back4AppTools():
-    def get_song(self):
+    def fetch_kurunthogai_song(self):
         header = get_headers()
-        # url = "https://parseapi.back4app.com/classes/KurunthogaiPoems"
-        data = requests.get(KURUNTHOGAI_POEMS_PARSE_URL, headers=header)
-        json_response = data.json()
+        kurunthogai_db_url_with_filter = KURUNTHOGAI_POEMS_DB_URL + KURUNTHOGAI_NON_TWEETED_FILTER_QUERY
+        query_results = requests.get(kurunthogai_db_url_with_filter, headers=header)
+        query_results_json = query_results.json()
 
         song = ''
-        if None != json_response:
-            kurunthogai_poems = json_response['results'][0]
+        if query_results_json is not None:
+            kurunthogai_poem_json_response = query_results_json[RESULTS_KEY][0]
+            print('song to be updated is  : ', kurunthogai_poem_json_response)
             poem_with_author = ('%s \n' %
-                                (kurunthogai_poems[POEM_TEXT_KEY]))
+                                (kurunthogai_poem_json_response[POEM_TEXT_KEY]))
             song = poem_with_author + '\n' + DAILY_ONE_KURUNTHOGAI_HASHTAG
-        # update_status(results['object_id'])
+            print('song to be updated is  : ', kurunthogai_poem_json_response[OBJECT_ID_KEY])
+            update_is_tweeted(kurunthogai_poem_json_response[OBJECT_ID_KEY])
         return song
 
     def populate_kurunthogai_in_db(self, poem_payload):
@@ -70,7 +76,7 @@ class Back4AppTools():
         if None != poem_payload:
             print("\n json dump : ", json.dumps(poem_payload))
             kurunthogai_request_headers = get_headers()
-            create_kurunthogai_status = requests.post(KURUNTHOGAI_POEMS_PARSE_URL,
+            create_kurunthogai_status = requests.post(KURUNTHOGAI_POEMS_DB_URL,
                                                       data=json.dumps(poem_payload),
                                                       headers=kurunthogai_request_headers)
             print("Kurunthogai DB population activity status : ", create_kurunthogai_status)
