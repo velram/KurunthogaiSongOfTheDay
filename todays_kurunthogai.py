@@ -3,10 +3,9 @@ import kurunthogai_poem_urls_scrapper
 import kurunthogai_poems_scrapper
 import kurunthogai_beautiful_soup_tools
 import kurunthogai_tweeter
+from local_config import *
 
 FIRST_KURUNTHOGAI_PAGE_URL = 'https://ta.wikisource.org/s/s6'  # Song 1 to 10
-shall_load_data_into_db = False
-shall_tweet_poem = False
 
 back4app_tools = back4app.Back4AppTools()
 
@@ -43,17 +42,20 @@ def test_kurunthogai_scraping():
 
 
 if __name__ == "__main__":
-    if shall_load_data_into_db:
-        scraped_kurunthogai_poems = invoke_kurunthogai_web_scraping()
+    print("Enable tweeting : ", ENABLE_TWITTER_POSTING)
+    print("Invoke DB loader : ", INVOKE_DB_LOADER)
+    if True == INVOKE_DB_LOADER:
+        print('testing db loader')
+        # scraped_kurunthogai_poems = invoke_kurunthogai_web_scraping()
 
-        print("\n\n Inside main page : \n ", scraped_kurunthogai_poems)
+        # print("\n\n Inside main page : \n ", scraped_kurunthogai_poems)
 
-        invoke_store_kurunthogai_songs(scraped_kurunthogai_poems)
+        # invoke_store_kurunthogai_songs(scraped_kurunthogai_poems)
 
-    if shall_tweet_poem:
+    if True == ENABLE_TWITTER_POSTING:
+        print("Initiating Tweeting activity")
         kurunthogai_tweeter_tools = kurunthogai_tweeter.KurunthogaiTweeterTools()
         todays_kurunthogai_poem = back4app_tools.fetch_kurunthogai_song()
         kurunthogai_tweeter_tools.tweet_kurunthogai(todays_kurunthogai_poem)
         print("இன்றைய குறுந்தொகை : \n", todays_kurunthogai_poem)
-
-    test_kurunthogai_scraping()
+        # test_kurunthogai_scraping()
