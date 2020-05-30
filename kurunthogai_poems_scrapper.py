@@ -1,10 +1,6 @@
 # Import libraries
-import requests
-import urllib.request
-import time
-from bs4 import BeautifulSoup
-import re
-
+import kurunthogai_beautiful_soup_tools
+import kurunthogai_poem_urls_scrapper
 
 # TODO : fetch multiple URLs for various pages &
 # dynamic rotation of URLs
@@ -28,6 +24,7 @@ class Kurunthogai_Poems_Scrapper_Tools:
             song_line_count = len(song.find_all('dd'))
             # Uncomment to debug
             # print("Song line count is : ", song_line_count)
+            # Expected tag structure for poem text is dl->dd (dd count should be minimum 4)
             if (song != None and song_line_count >= 4):
                 # print("\n\n Song paragraph is : \n\n " + song.text + " \n\n")
                 song_text = song.text
@@ -38,6 +35,7 @@ class Kurunthogai_Poems_Scrapper_Tools:
             dd_count = len(song.find_all('dd'))
             # Uncomment to debug
             # print("Song line count is : ", song_line_count)
+            # Expected tag structure for poem author is dl->dd (dd count should be 1)
             if (None != song and 1 == dt_count and 1 == dd_count):
                 # print("\n\n Song paragraph is : \n\n " + song.text + " \n\n")
                 if (None != song.find('dd')):
@@ -47,3 +45,18 @@ class Kurunthogai_Poems_Scrapper_Tools:
                     songs.append(song_text)
                 # print("")
         return songs
+
+
+def test_kurunthogai_scraping():
+    print("Inside test kurunthogai scraping")
+    kurunthogai_poem_url = 'https://ta.wikisource.org/s/s6'  # Song 1 to 10
+    beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
+    kurunthogai_bs = beautiful_soup_tools.get_beautiful_soup_object(kurunthogai_poem_url)
+    kurunthogai_scrapper_tools = Kurunthogai_Poems_Scrapper_Tools()
+    temp_kurunthogai_poems = Kurunthogai_Poems_Scrapper_Tools.get_all_songs(kurunthogai_scrapper_tools, kurunthogai_bs)
+    for temp_kurunthogai_poem in temp_kurunthogai_poems:
+        print("\n", temp_kurunthogai_poem)
+
+
+if __name__ == "__main__":
+    test_kurunthogai_scraping()

@@ -6,7 +6,7 @@ import kurunthogai_tweeter
 
 FIRST_KURUNTHOGAI_PAGE_URL = 'https://ta.wikisource.org/s/s6'  # Song 1 to 10
 shall_load_data_into_db = False
-shall_tweet_poem = True
+shall_tweet_poem = False
 
 back4app_tools = back4app.Back4AppTools()
 
@@ -36,6 +36,12 @@ def invoke_store_kurunthogai_songs(kurunthogai_poems):
     print("பாடல் : \n ", kurunthogai_song)
 
 
+def test_kurunthogai_scraping():
+    temp_kurunthogai_poems = invoke_kurunthogai_web_scraping()
+    for temp_kurunthogai_poem in temp_kurunthogai_poems:
+        print("\n", temp_kurunthogai_poem)
+
+
 if __name__ == "__main__":
     if shall_load_data_into_db:
         scraped_kurunthogai_poems = invoke_kurunthogai_web_scraping()
@@ -48,4 +54,6 @@ if __name__ == "__main__":
         kurunthogai_tweeter_tools = kurunthogai_tweeter.KurunthogaiTweeterTools()
         todays_kurunthogai_poem = back4app_tools.fetch_kurunthogai_song()
         kurunthogai_tweeter_tools.tweet_kurunthogai(todays_kurunthogai_poem)
-    print("இன்றைய குறுந்தொகை : \n", todays_kurunthogai_poem)
+        print("இன்றைய குறுந்தொகை : \n", todays_kurunthogai_poem)
+
+    test_kurunthogai_scraping()
