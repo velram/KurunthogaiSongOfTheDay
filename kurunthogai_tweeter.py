@@ -1,10 +1,5 @@
 import twitter
-import back4app
-
-TWITTER_API_KEY = ''
-TWITTER_API_SECRET_KEY = ''
-TWITTER_ACCESS_TOKEN_KEY = ''
-TWITTER_ACCESS_TOKEN_SECRET = ''
+from local_config import *
 
 
 def connect_twitter():

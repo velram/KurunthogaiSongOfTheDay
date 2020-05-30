@@ -1,7 +1,7 @@
 import requests
 import json
+from local_config import *
 
-# from local_settings import *
 RESULTS_KEY = 'results'
 
 KURUNTHOGAI_POEMS_DB_URL = "https://parseapi.back4app.com/classes/KurunthogaiPoems"
@@ -17,8 +17,8 @@ DAILY_ONE_KURUNTHOGAI_HASHTAG = '#தினமொரு_குறுந்தொ
 
 def get_headers():
     return {
-        'X-Parse-Application-Id': '',
-        'X-Parse-REST-API-Key': '',
+        'X-Parse-Application-Id': BACK4APP_PARSE_API_APP_ID,
+        'X-Parse-REST-API-Key': BACK4APP_PARSE_API_KEY,
         'Content-Type': 'application/json'
     }
 
@@ -36,7 +36,7 @@ def update_is_tweeted(kurunthogai_poem_object_id):
 
 def get_sample_poem():
     return {
-        "PoemIndex": 1,
+        "PoemIndex": 0,
         "PoemText": "செங்களம் படக்கொன் றவுணர்த் தேய்த்த செங்கோ லம்பிற் செங்கோட் டியானைக் கழல்தொடிச் சேஎய் குன்றம் "
                     "குருதிப் பூவின் குலைக்காந் தட்டே.",
         "PoemAuthor": "திப்புத் தோளார்"
