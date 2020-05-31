@@ -44,7 +44,7 @@ def test_kurunthogai_scraping():
 if __name__ == "__main__":
     print("Enable tweeting : ", ENABLE_TWITTER_POSTING)
     print("Invoke DB loader : ", INVOKE_DB_LOADER)
-    if True == INVOKE_DB_LOADER:
+    if 'True' == INVOKE_DB_LOADER:
         print('testing db loader')
         # scraped_kurunthogai_poems = invoke_kurunthogai_web_scraping()
 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
 
         # invoke_store_kurunthogai_songs(scraped_kurunthogai_poems)
 
-    if True == ENABLE_TWITTER_POSTING:
+    if 'True' == ENABLE_TWITTER_POSTING:
         print("Initiating Tweeting activity")
         kurunthogai_tweeter_tools = kurunthogai_tweeter.KurunthogaiTweeterTools()
         todays_kurunthogai_poem = back4app_tools.fetch_kurunthogai_song()
