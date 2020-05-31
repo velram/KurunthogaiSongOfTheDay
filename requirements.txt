@@ -1,6 +1,6 @@
 requests~=2.23.0
-twitter~=1.18.0
 beautifulsoup4~=4.9.1
 boto~=2.49.0
 bs4~=0.0.1
 python-dotenv~=0.13.0
+python-twitter~=3.5
