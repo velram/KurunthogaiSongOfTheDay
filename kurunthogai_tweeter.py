@@ -1,10 +1,5 @@
 import twitter
-import back4app
-
-TWITTER_API_KEY = ''
-TWITTER_API_SECRET_KEY = ''
-TWITTER_ACCESS_TOKEN_KEY = ''
-TWITTER_ACCESS_TOKEN_SECRET = ''
+from local_config import *
 
 
 def connect_twitter():
@@ -17,6 +12,7 @@ def connect_twitter():
 class KurunthogaiTweeterTools:
     def tweet_kurunthogai(self, kurunthogai_poem):
         api = connect_twitter()
+        print("Kurunthogai poem to be tweeted : ", kurunthogai_poem)
         twit_status = None
         if kurunthogai_poem is not None and len(kurunthogai_poem) <= 280:
             twit_status = api.PostUpdate(kurunthogai_poem)

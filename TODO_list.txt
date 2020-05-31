@@ -1,12 +1,16 @@
-Approach - break-up
+Approach - break-up & status
 
 1. Scrap poems' text from wikisource - DONE
 2. Store the scrapped songs to some source (file / DB / website) - DONE
     Note : Back4App DB is used to store the information
 3. Fetch the poems from Back4App DB - DONE
 4. Tweet the poem - DONE
+5. Schedule the tweeting logic - TODO
+6. API keys are stored in env / config vars - DONE
 
 TODO - list
+
+. Update DB only if the tweeting is successful
 . Scrape poem's index - On hold
 . Update poem's index in DB - TODO
 . Add poem index to the tweet's text

@@ -1,6 +1,6 @@
 # Import libraries
 import kurunthogai_beautiful_soup_tools
-import kurunthogai_poem_urls_scrapper
+
 
 # TODO : fetch multiple URLs for various pages &
 # dynamic rotation of URLs
