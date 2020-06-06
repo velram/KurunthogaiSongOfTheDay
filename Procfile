@@ -1,1 +1,1 @@
-worker: python3 todays_kurunthogai.py
+clock: python clock.py
