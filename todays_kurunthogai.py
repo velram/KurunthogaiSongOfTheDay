@@ -41,6 +41,15 @@ def test_kurunthogai_scraping():
         print("\n", temp_kurunthogai_poem)
 
 
+def tweet_todays_kurunthogai():
+    if 'True' == ENABLE_TWITTER_POSTING:
+        print("Initiating Tweeting activity")
+        kurunthogai_tweeter_tools = kurunthogai_tweeter.KurunthogaiTweeterTools()
+        todays_kurunthogai_poem = back4app_tools.fetch_kurunthogai_song()
+        kurunthogai_tweeter_tools.tweet_kurunthogai(todays_kurunthogai_poem)
+        print("இன்றைய குறுந்தொகை : \n", todays_kurunthogai_poem)
+
+
 if __name__ == "__main__":
     print("Enable tweeting : ", ENABLE_TWITTER_POSTING)
     print("Invoke DB loader : ", INVOKE_DB_LOADER)

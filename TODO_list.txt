@@ -5,7 +5,7 @@ Approach - break-up & status
     Note : Back4App DB is used to store the information
 3. Fetch the poems from Back4App DB - DONE
 4. Tweet the poem - DONE
-5. Schedule the tweeting logic - TODO
+5. Schedule the tweeting logic - DONE
 6. API keys are stored in env / config vars - DONE
 
 TODO - list

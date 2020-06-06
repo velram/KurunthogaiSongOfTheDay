@@ -21,5 +21,12 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv('twitter_access_token_secret')
 BACK4APP_PARSE_API_KEY = os.getenv('back_4_app_api_key')
 BACK4APP_PARSE_API_APP_ID = os.getenv('back_4_app_parse_application_id')
 
+# Tweet schedule
+
+TWEET_SCHEDULE_DAY = os.getenv('tweet_schedule_day')
+TWEET_SCHEDULE_HOUR = os.getenv('tweet_schedule_hour')
+TWEET_SCHEDULE_MINUTE = os.getenv('tweet_schedule_minute')
+
 if __name__ == '__main__':
     print("Enable tweeting : ", ENABLE_TWITTER_POSTING)
+    print("Tweet schedule hour tweeting : ", int(TWEET_SCHEDULE_HOUR))
