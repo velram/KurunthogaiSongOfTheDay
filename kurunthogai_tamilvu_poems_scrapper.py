@@ -1,35 +1,42 @@
-from lxml import html
-import requests
+import time
 import kurunthogai_beautiful_soup_tools
+import re
 
-
-# Fetch page object
-# Fetch poem thinai type - DONE
-# Fetch poem verses
-# Fetch poet name
+# Task list
+# Fetch page object - DONE
+# Fetch poem's thinai type - DONE
+# Fetch poem verses - DONE
+# Fetch poet name - WIP
 class TamilVU_Scrapper_Tools:
     # TODO update logic to fetch index only (call fetch_poem_thinai_type & parse the index number only)
-    def fetch_poem_index(self, beautiful_soup_obj):
-        poem_indexes = beautiful_soup_obj.find_all('div', attrs={"class": "subhead"})
-        for poem_index in poem_indexes:
-            print("poem index : ", poem_index.get_text())
-        return poem_indexes
+    def fetch_poem_indices(self, beautiful_soup_obj):
+        time.sleep(3)
+        poem_indices = []
+        poem_elements = self.fetch_poem_thinai_types(beautiful_soup_obj)
+        for poem_element in poem_elements:
+            time.sleep(3)
+            poem_indices.append(re.findall(r'-?\d+\d*', poem_element.get_text())[0])
+        # print("poem index : ", poem_indices)
+        return poem_indices
 
-    def fetch_poem_thinai_type(self, beautiful_soup_obj):
+    def fetch_poem_thinai_types(self, beautiful_soup_obj):
+        time.sleep(3)
         poem_thinai_types = beautiful_soup_obj.find_all('div', attrs={"class": "subhead"})
         for poem_thinai_type_ in poem_thinai_types:
-            print("Poem Thinai Type  : ", poem_thinai_type_.get_text())
-        return ''
+            time.sleep(3)
+            # print("Poem Thinai Type  : ", poem_thinai_type_.get_text())
+        return poem_thinai_types
 
     def fetch_poem_verses(self, beautiful_soup_obj):
+        time.sleep(3)
         poem_elements = beautiful_soup_obj.find_all('div', attrs={"class": "poem"})
         for poem_element in poem_elements:
-            # if not null or empty & not <font>
-            if None != poem_element and None == poem_element.find('font'):
-                print("Poem Thinai Type  : ", poem_element.get_text())
+            time.sleep(3)
+            if poem_element is not None and poem_element.find('font') is None:
+                print("Poem verse  : ", poem_element.get_text().strip())
         return ''
 
-    def fetch_poet_name(self):
+    def fetch_poet_names(self):
         return ''
 
 
@@ -37,8 +44,9 @@ def test_kurunthogai_scraping(poem_page_url):
     beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
     beautiful_soup_obj = beautiful_soup_tools.get_beautiful_soup_object(poem_page_url)
     tamilvu_scrapper_tools = TamilVU_Scrapper_Tools()
-    # TamilVU_Scrapper_Tools.fetch_poem_index(tamilvu_scrapper_tools, beautiful_soup_obj)
-    TamilVU_Scrapper_Tools.fetch_poem_verses(tamilvu_scrapper_tools, beautiful_soup_obj)
+    TamilVU_Scrapper_Tools.fetch_poem_indices(tamilvu_scrapper_tools, beautiful_soup_obj)
+    # TamilVU_Scrapper_Tools.fetch_poem_thinai_type(tamilvu_scrapper_tools, beautiful_soup_obj)
+    # TamilVU_Scrapper_Tools.fetch_poem_verses(tamilvu_scrapper_tools, beautiful_soup_obj)
 
 
 if __name__ == '__main__':
