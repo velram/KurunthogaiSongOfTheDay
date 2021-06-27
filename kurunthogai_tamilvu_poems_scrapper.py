@@ -19,13 +19,16 @@ class TamilVU_Scrapper_Tools:
         # print("poem index : ", poem_indices)
         return poem_indices
 
+    # TODO - remove number from thinai types
     def fetch_poem_thinai_types(self, beautiful_soup_obj):
         time.sleep(3)
-        poem_thinai_types = beautiful_soup_obj.find_all('div', attrs={"class": "subhead"})
-        for poem_thinai_type_ in poem_thinai_types:
+        poem_thinai_types = []
+        poem_head_elements = beautiful_soup_obj.find_all('div', attrs={"class": "subhead"})
+        for poem_head_element in poem_head_elements:
             time.sleep(3)
-            # print("Poem Thinai Type  : ", poem_thinai_type_.get_text())
-        return poem_thinai_types
+            print("Poem Thinai Type  : ", poem_head_element.get_text())
+            poem_thinai_types.append(poem_head_element.get_text())
+        return poem_head_elements
 
     def fetch_poem_verses(self, beautiful_soup_obj):
         time.sleep(3)
@@ -36,17 +39,30 @@ class TamilVU_Scrapper_Tools:
                 print("Poem verse  : ", poem_element.get_text().strip())
         return ''
 
-    def fetch_poet_names(self):
-        return ''
+    def fetch_poet_names(self, beautiful_soup_obj):
+        time.sleep(3)
+        poem_elements = beautiful_soup_obj.find_all('div', attrs={"class": "poem"})
+        poet_names = []
+        for poem_element in poem_elements:
+            time.sleep(3)
+            if poem_element is not None and poem_element.find('font', attrs={"color": "#531a02"}) is not None:
+                poem_explanation_and_poet_name = poem_element.find('font').get_text().strip()
+                poet_name_delimiter = '-'
+                poet_name = poem_explanation_and_poet_name.partition(poet_name_delimiter)[2].strip()
+                poet_names.append(poet_name)
+                print("poet name  : ", poet_name)
+        print('poet names : ', poet_names)
+        return poet_names
 
 
 def test_kurunthogai_scraping(poem_page_url):
     beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
     beautiful_soup_obj = beautiful_soup_tools.get_beautiful_soup_object(poem_page_url)
     tamilvu_scrapper_tools = TamilVU_Scrapper_Tools()
-    TamilVU_Scrapper_Tools.fetch_poem_indices(tamilvu_scrapper_tools, beautiful_soup_obj)
-    # TamilVU_Scrapper_Tools.fetch_poem_thinai_type(tamilvu_scrapper_tools, beautiful_soup_obj)
-    # TamilVU_Scrapper_Tools.fetch_poem_verses(tamilvu_scrapper_tools, beautiful_soup_obj)
+    #TamilVU_Scrapper_Tools.fetch_poem_indices(tamilvu_scrapper_tools, beautiful_soup_obj)
+    #TamilVU_Scrapper_Tools.fetch_poem_thinai_types(tamilvu_scrapper_tools, beautiful_soup_obj)
+    #TamilVU_Scrapper_Tools.fetch_poem_verses(tamilvu_scrapper_tools, beautiful_soup_obj)
+    TamilVU_Scrapper_Tools.fetch_poet_names(tamilvu_scrapper_tools, beautiful_soup_obj)
 
 
 if __name__ == '__main__':
