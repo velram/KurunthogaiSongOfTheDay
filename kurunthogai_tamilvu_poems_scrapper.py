@@ -1,6 +1,7 @@
 import time
 import kurunthogai_beautiful_soup_tools
 import re
+from kurunthogai_popo import Kurunthogai
 
 
 # Task list
@@ -8,7 +9,7 @@ import re
 # Fetch poem's thinai type - DONE
 # Fetch poem verses - DONE
 # Fetch poet name - WIP
-class TamilVU_Scrapper_Tools:
+class TamilVUScrapperTools:
     # TODO update logic to fetch index only (call fetch_poem_thinai_type & parse the index number only)
     def fetch_poem_indices(self, beautiful_soup_obj):
         time.sleep(3)
@@ -29,7 +30,7 @@ class TamilVU_Scrapper_Tools:
             time.sleep(3)
             print("Poem Thinai Type  : ", poem_head_element.get_text())
             poem_thinai_types.append(poem_head_element.get_text())
-            break  # TODO - remove break stmt after testing
+            # break  # TODO - remove break stmt after testing
         return poem_head_elements
 
     def fetch_poem_verses(self, beautiful_soup_obj):
@@ -67,6 +68,11 @@ class TamilVU_Scrapper_Tools:
             if poem_index_thinai_type is not None:
                 print("Kurunthogai element : ", poem_index_thinai_type.get_text())
 
+            poem_verse = poem_head_element.find('div', attrs={"class": "poem"})
+
+            if poem_verse is not None and poem_verse.find('font') is None:
+                print("Poem verse : ", poem_verse.get_text())
+
             # print("Poem Thinai Type  : ", poem_head_element.get_text())
             # parent = poem_head_element.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent
             # print('parent element : ', parent)
@@ -74,16 +80,62 @@ class TamilVU_Scrapper_Tools:
             # break  # TODO - remove break stmt after testing
         return poem_head_elements
 
+    @staticmethod
+    def fetch_all_tables(beautiful_soup_obj):
+        time.sleep(3)
+        poem_thinai_types = []
+        table_elements = beautiful_soup_obj.find_all('table')
+        print("Array length is : ", len(table_elements))
+        # print("Table at index 0 : ", table_elements[33])
+        # TODO
+        # - conditions - table not target
+        # - table not "head"
+        # Read table element of index
+        # Read next table element of poem
+        # Read next table element of poet
+        kurunthogai_poems = []
+        for index in range(len(table_elements) - 3):
+            if table_elements[index] is not None:
+                not_parent_table = table_elements[index].find('a', attrs={"target": "_parent"}) is None
+                not_head_div = table_elements[index].find('div', attrs={"class": "head"}) is None
+                poem_header_exists = table_elements[index].find('div', attrs={"class": "subhead"}) is not None
+                if not_parent_table and not_head_div and poem_header_exists:
+                    time.sleep(1)
+                    poem_header_text = table_elements[index].get_text()
+                    print("திணை வகை: ", poem_header_text)
+                    poem_verses = table_elements[index].findNext('table')
+                    print("பாடல் வரிகள் : \n ", poem_verses)
+                    poet_name = poem_verses.findNext('table')
+                    print("இயற்றியவர் : \n ", poet_name)
+
+
+        # print('Head elements \n ',table_elements)
+        # for table_element in table_elements:
+        #     time.sleep(2)
+        #     # print('Table element : ', table_element);
+        #     poem_index_thinai_type_td = table_element.find('td', attrs={"align": "left", "width": "400"})
+        #     if poem_index_thinai_type_td is not None:
+        #         poem_index_thinai_type_element = poem_index_thinai_type_td.find('div', attrs={"class": "subhead"})
+        #         if poem_index_thinai_type_element is not None:
+        #             print("Poem index & thinai type  : ", poem_index_thinai_type_element.get_text())
+
+        #     # print('adjacent element is : ', poem_index_thinai_type_element.)
+        #     # Table contains this TD -> <td align="left" width="400"> AND div.class = 'subhead' Then it's poem index & thinai type.
+        #     # Find next element
+        #     next_sibling_element = table_element.next_sibling
+        #     print('Next element is : ', next_sibling_element)
+
 
 def test_kurunthogai_scraping(poem_page_url):
     beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
     beautiful_soup_obj = beautiful_soup_tools.get_beautiful_soup_object(poem_page_url)
-    tamilvu_scrapper_tools = TamilVU_Scrapper_Tools()
-    # TamilVU_Scrapper_Tools.fetch_poem_indices(tamilvu_scrapper_tools, beautiful_soup_obj)
-    # TamilVU_Scrapper_Tools.fetch_poem_thinai_types(tamilvu_scrapper_tools, beautiful_soup_obj)
-    # TamilVU_Scrapper_Tools.fetch_poem_verses(tamilvu_scrapper_tools, beautiful_soup_obj)
-    # TamilVU_Scrapper_Tools.fetch_poet_names(tamilvu_scrapper_tools, beautiful_soup_obj)
-    TamilVU_Scrapper_Tools.fetch_kurunthogai(tamilvu_scrapper_tools, beautiful_soup_obj)
+    tamilvu_scrapper_tools = TamilVUScrapperTools()
+    # TamilVUScrapperTools.fetch_poem_indices(tamilvu_scrapper_tools, beautiful_soup_obj)
+    # TamilVUScrapperTools.fetch_poem_thinai_types(tamilvu_scrapper_tools, beautiful_soup_obj)
+    # TamilVUScrapperTools.fetch_poem_verses(tamilvu_scrapper_tools, beautiful_soup_obj)
+    # TamilVUScrapperTools.fetch_poet_names(tamilvu_scrapper_tools, beautiful_soup_obj)
+    # TamilVUScrapperTools.fetch_kurunthogai(tamilvu_scrapper_tools, beautiful_soup_obj)
+    TamilVUScrapperTools.fetch_all_tables(beautiful_soup_obj)
 
 
 if __name__ == '__main__':
