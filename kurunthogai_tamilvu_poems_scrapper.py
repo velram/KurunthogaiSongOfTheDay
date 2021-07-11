@@ -103,28 +103,27 @@ class TamilVUScrapperTools:
                     time.sleep(1)
                     poem_header_text = table_elements[index].get_text()
                     print("திணை வகை: ", poem_header_text)
-                    poem_verses = table_elements[index].findNext('table')
-                    print("பாடல் வரிகள் : \n ", poem_verses)
-                    poet_name = poem_verses.findNext('table')
-                    print("இயற்றியவர் : \n ", poet_name)
+                    poem_table = table_elements[index].findNext('table')
+                    # print("பாடல் வரிகள் : \n ", poem_table)
+                    poem_elements = poem_table.find_all('div', attrs={"class": "poem"})
+                    # print('poem_elements : ', poem_elements)
+                    print("பாடல் : \n")
+                    for poem_element in poem_elements:
+                        time.sleep(3)
+                        if poem_element is not None and poem_element.find('font') is None:
+                            print(poem_element.get_text().strip())
+                    break
+                    poet_name_table = poem_table.findNext('table')
+                    print("poet_name : ", poet_name_table)
+                    if poet_name_table is not None and \
+                            poet_name_table.find('font', attrs={"color": "#531a02"}) is not None:
+                        poem_explanation_and_poet_name = poet_name_table.find('font').get_text().strip()
+                        poet_name_delimiter = '-'
+                        poet_name = poem_explanation_and_poet_name.partition(poet_name_delimiter)[2].strip()
+                        poet_names.append(poet_name)
+                        print("\n இயற்றியவர்  : ", poet_name)
 
-
-        # print('Head elements \n ',table_elements)
-        # for table_element in table_elements:
-        #     time.sleep(2)
-        #     # print('Table element : ', table_element);
-        #     poem_index_thinai_type_td = table_element.find('td', attrs={"align": "left", "width": "400"})
-        #     if poem_index_thinai_type_td is not None:
-        #         poem_index_thinai_type_element = poem_index_thinai_type_td.find('div', attrs={"class": "subhead"})
-        #         if poem_index_thinai_type_element is not None:
-        #             print("Poem index & thinai type  : ", poem_index_thinai_type_element.get_text())
-
-        #     # print('adjacent element is : ', poem_index_thinai_type_element.)
-        #     # Table contains this TD -> <td align="left" width="400"> AND div.class = 'subhead' Then it's poem index & thinai type.
-        #     # Find next element
-        #     next_sibling_element = table_element.next_sibling
-        #     print('Next element is : ', next_sibling_element)
-
+                    # print("இயற்றியவர் : \n ", poet_name_table)
 
 def test_kurunthogai_scraping(poem_page_url):
     beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
