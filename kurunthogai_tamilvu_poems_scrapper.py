@@ -102,7 +102,7 @@ class TamilVUScrapperTools:
                 if not_parent_table and not_head_div and poem_header_exists:
                     time.sleep(1)
                     poem_header_text = table_elements[index].get_text()
-                    print("திணை வகை: ", poem_header_text)
+                    print("\nபாடல் எண் & திணை வகை: ", poem_header_text)
                     poem_table = table_elements[index].findNext('table')
                     # print("பாடல் வரிகள் : \n ", poem_table)
                     poem_elements = poem_table.find_all('div', attrs={"class": "poem"})
@@ -112,15 +112,16 @@ class TamilVUScrapperTools:
                         time.sleep(3)
                         if poem_element is not None and poem_element.find('font') is None:
                             print(poem_element.get_text().strip())
-                    break
+                    # break
                     poet_name_table = poem_table.findNext('table')
-                    print("poet_name : ", poet_name_table)
+                    # print("poet_name : ", poet_name_table)
                     if poet_name_table is not None and \
                             poet_name_table.find('font', attrs={"color": "#531a02"}) is not None:
+                        time.sleep(1)
                         poem_explanation_and_poet_name = poet_name_table.find('font').get_text().strip()
                         poet_name_delimiter = '-'
                         poet_name = poem_explanation_and_poet_name.partition(poet_name_delimiter)[2].strip()
-                        poet_names.append(poet_name)
+                        # poet_names.append(poet_name)
                         print("\n இயற்றியவர்  : ", poet_name)
 
                     # print("இயற்றியவர் : \n ", poet_name_table)
