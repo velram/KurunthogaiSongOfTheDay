@@ -15,6 +15,7 @@ class TamilVUScrapperTools:
         # print("Table at index 0 : ", table_elements[33])
         kurunthogai_poems = []
         for index in range(len(table_elements)):
+            time.sleep(1)
             poem_verses = ''
             if table_elements[index] is not None:
                 not_parent_table = table_elements[index].find('a', attrs={"target": "_parent"}) is None
@@ -22,8 +23,13 @@ class TamilVUScrapperTools:
                 poem_header_exists = table_elements[index].find('div', attrs={"class": "subhead"}) is not None
                 if not_parent_table and not_head_div and poem_header_exists:
                     # time.sleep(1)
-                    poem_header_text = table_elements[index].get_text()
-                    print("\n", poem_header_text)
+                    poem_index_and_thinai_type = table_elements[index].get_text()
+                    poem_index = re.findall(r'-?\d+\d*', poem_index_and_thinai_type)[0]
+                    print("\nபாடல் எண் : ", poem_index)
+                    poem_thinai_type = ''
+                    if len(poem_index_and_thinai_type.split('.')) >= 1:
+                        poem_thinai_type = poem_index_and_thinai_type.split('.')[1]
+                        print('திணை வகை: ', poem_thinai_type)
                     poem_table = table_elements[index].findNext('table')
                     # print("பாடல் வரிகள் : \n ", poem_table)
                     poem_elements = poem_table.find_all('div', attrs={"class": "poem"})
@@ -33,7 +39,6 @@ class TamilVUScrapperTools:
                         # time.sleep(2)
                         if poem_element is not None and poem_element.find('font') is None and\
                                 poem_element.get_text().strip():
-                            # print("Poem |" + poem_element.get_text().strip() + "|")
                             if poem_element.get_text().strip().find("\r\n") != -1:
                                 poem_verse = poem_element.get_text().strip().replace("\r\n", "")
                                 poem_verses = poem_verses + poem_verse + '\n'
@@ -42,16 +47,13 @@ class TamilVUScrapperTools:
                                 poem_verses = poem_verses + poem_verse + '\n'
                     print(poem_verses)
                     poet_name_table = poem_table.findNext('table')
-                    # print("poet_name : ", poet_name_table)
                     if poet_name_table is not None and \
                             poet_name_table.find('font', attrs={"color": "#531a02"}) is not None:
                         time.sleep(1)
                         poem_explanation_and_poet_name = poet_name_table.find('font').get_text().strip()
                         poet_name_delimiter = '-'
                         poet_name = poem_explanation_and_poet_name.partition(poet_name_delimiter)[2].strip()
-                        # poet_names.append(poet_name)
-                        print("\nஇயற்றியவர்  : ", poet_name)
-                    # print("இயற்றியவர் : \n ", poet_name_table)
+                        print("இயற்றியவர்  : ", poet_name)
 
 
 def trigger_kurunthogai_scraping(kurunthogai_page_url):
