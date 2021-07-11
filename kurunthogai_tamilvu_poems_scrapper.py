@@ -15,6 +15,7 @@ class TamilVUScrapperTools:
         # print("Table at index 0 : ", table_elements[33])
         kurunthogai_poems = []
         for index in range(len(table_elements)):
+            poem_verses = ''
             if table_elements[index] is not None:
                 not_parent_table = table_elements[index].find('a', attrs={"target": "_parent"}) is None
                 not_head_div = table_elements[index].find('div', attrs={"class": "head"}) is None
@@ -35,9 +36,11 @@ class TamilVUScrapperTools:
                             # print("Poem |" + poem_element.get_text().strip() + "|")
                             if poem_element.get_text().strip().find("\r\n") != -1:
                                 poem_verse = poem_element.get_text().strip().replace("\r\n", "")
+                                poem_verses = poem_verses + poem_verse + '\n'
                             else:
                                 poem_verse = poem_element.get_text().strip()
-                            print(poem_verse)
+                                poem_verses = poem_verses + poem_verse + '\n'
+                    print(poem_verses)
                     poet_name_table = poem_table.findNext('table')
                     # print("poet_name : ", poet_name_table)
                     if poet_name_table is not None and \
@@ -63,3 +66,4 @@ if __name__ == '__main__':
         print("Page to be scraped : ", poem_page_url)
         time.sleep(3)
         trigger_kurunthogai_scraping(poem_page_url)
+        break
