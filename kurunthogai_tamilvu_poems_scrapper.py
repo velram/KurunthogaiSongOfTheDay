@@ -16,6 +16,7 @@ class TamilVUScrapperTools:
         kurunthogai_poems = []
         for index in range(len(table_elements)):
             time.sleep(1)
+            kurunthogai_poem = Kurunthogai('', '', '')
             poem_verses = ''
             if table_elements[index] is not None:
                 not_parent_table = table_elements[index].find('a', attrs={"target": "_parent"}) is None
@@ -26,6 +27,7 @@ class TamilVUScrapperTools:
                     poem_index_and_thinai_type = table_elements[index].get_text()
                     poem_index = re.findall(r'-?\d+\d*', poem_index_and_thinai_type)[0]
                     print("\nபாடல் எண் : ", poem_index)
+                    kurunthogai_poem.poem_index = poem_index
                     poem_thinai_type = ''
                     if len(poem_index_and_thinai_type.split('.')) >= 1:
                         poem_thinai_type = poem_index_and_thinai_type.split('.')[1]
