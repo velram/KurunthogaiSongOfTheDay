@@ -7,7 +7,7 @@ from kurunthogai_popo import Kurunthogai
 class TamilVUScrapperTools:
 
     @staticmethod
-    def fetch_all_tables(beautiful_soup_obj):
+    def fetch_all_kurunthogai_poems(beautiful_soup_obj):
         time.sleep(3)
         table_elements = beautiful_soup_obj.find_all('table')
         print("Array length is : ", len(table_elements))
@@ -72,7 +72,7 @@ class TamilVUScrapperTools:
 def trigger_kurunthogai_scraping(kurunthogai_page_url):
     beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
     beautiful_soup_obj = beautiful_soup_tools.get_beautiful_soup_object(kurunthogai_page_url)
-    kurunthogai_poems = TamilVUScrapperTools.fetch_all_tables(beautiful_soup_obj)
+    kurunthogai_poems = TamilVUScrapperTools.fetch_all_kurunthogai_poems(beautiful_soup_obj)
     for kurunthogai_poem in kurunthogai_poems:
         print("பாடல் எண் : ", kurunthogai_poem.poem_index)
         print("திணை : ", kurunthogai_poem.thinai_type)
