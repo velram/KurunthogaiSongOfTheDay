@@ -5,9 +5,9 @@ from local_config import *
 RESULTS_KEY = 'results'
 
 KURUNTHOGAI_POEMS_DB_URL = "https://parseapi.back4app.com/classes/KurunthogaiPoems"
-POEM_TEXT_KEY = 'poem_text'
+POEM_TEXT_KEY = 'kurunthogai_poem_loop_element'
 POEM_INDEX_KEY = 'poem_id'
-POEM_AUTHOR_KEY = 'poem_author'
+POEM_AUTHOR_KEY = 'poet_name'
 POEM_TWEETED_KEY = 'is_tweeted'
 OBJECT_ID_KEY = 'objectId'
 SLASH_DELIMITER = '/'
@@ -43,12 +43,13 @@ def get_sample_poem():
     }
 
 
-def get_kurunthogai_json(poem_index, poem_text, poem_author):
+def get_kurunthogai_json(kurunthogai_poem):
     kurunthogai_json = {
-        POEM_INDEX_KEY: poem_index,
-        POEM_TEXT_KEY: poem_text,
-        POEM_AUTHOR_KEY: poem_author,
-        POEM_TWEETED_KEY: False
+        "index": kurunthogai_poem.poem_index,
+        "poem_verses": kurunthogai_poem.poem_verses,
+        "poet_name": kurunthogai_poem.poet_name,
+        "poem_thinai_type": kurunthogai_poem.thinai_type,
+        "is_tweeted": False
     }
     return kurunthogai_json
 
@@ -86,7 +87,7 @@ class TamilVUBack4AppTools():
         poem_index = 1
         kurunthogai_payloads = []
         for kurunthogai_poem in kurunthogai_poems:
-            kurunthogai_poem_json_text = get_kurunthogai_json(poem_index, kurunthogai_poem, None)
+            kurunthogai_poem_json_text = get_kurunthogai_json(kurunthogai_poem, None)
             # kurunthogai_json_dump = json.dumps(kurunthogai_poem_json_text)
             print("\n\n பாடல் : ", poem_index, "\n", kurunthogai_poem_json_text)
             # print("JSON dump : ", kurunthogai_json_dump)

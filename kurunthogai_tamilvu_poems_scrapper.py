@@ -7,12 +7,12 @@ from kurunthogai_popo import Kurunthogai
 class TamilVUScrapperTools:
 
     @staticmethod
-    def fetch_all_kurunthogai_poems(beautiful_soup_obj):
+    def fetch_kurunthogai_page(beautiful_soup_obj):
         time.sleep(3)
         table_elements = beautiful_soup_obj.find_all('table')
         print("Array length is : ", len(table_elements))
         # print("Table at index 0 : ", table_elements[33])
-        kurunthogai_poems = []
+        poems_in_a_page = []
         for index in range(len(table_elements)):
             time.sleep(1)
             kurunthogai_poem = Kurunthogai('', '', '', '')
@@ -30,7 +30,7 @@ class TamilVUScrapperTools:
                     if len(poem_index_and_thinai_type.split('.')) >= 1:
                         poem_thinai_type = poem_index_and_thinai_type.split('.')[1]
                         kurunthogai_poem.thinai_type = poem_thinai_type
-                        # print('திணை வகை: ', kurunthogai_poem.thinai_type)
+                        # print('திணை வகை: ', kurunthogai_poem_loop_element.thinai_type)
                     poem_table = table_elements[index].findNext('table')
                     # print("பாடல் வரிகள் : \n ", poem_table)
                     poem_elements = poem_table.find_all('div', attrs={"class": "poem"})
@@ -38,7 +38,7 @@ class TamilVUScrapperTools:
                     # print("பாடல் : \n")
                     for poem_element in poem_elements:
                         # time.sleep(2)
-                        if poem_element is not None and poem_element.find('font') is None and\
+                        if poem_element is not None and poem_element.find('font') is None and \
                                 poem_element.get_text().strip():
                             if poem_element.get_text().strip().find("\r\n") != -1:
                                 poem_verse = poem_element.get_text().strip().replace("\r\n", "")
@@ -47,7 +47,7 @@ class TamilVUScrapperTools:
                                 poem_verse = poem_element.get_text().strip()
                                 poem_verses = poem_verses + poem_verse + '\n'
                     kurunthogai_poem.poem_verses = poem_verses
-                    # print(kurunthogai_poem.poem_verses)
+                    # print(kurunthogai_poem_loop_element.poem_verses)
                     poet_name_table = poem_table.findNext('table')
                     if poet_name_table is not None and \
                             poet_name_table.find('font', attrs={"color": "#531a02"}) is not None:
@@ -56,37 +56,44 @@ class TamilVUScrapperTools:
                         poet_name_delimiter = '-'
                         poet_name = poem_explanation_and_poet_name.partition(poet_name_delimiter)[2].strip()
                         kurunthogai_poem.poet_name = poet_name
-                        # print("இயற்றியவர்  : ", kurunthogai_poem.poet_name)
-                        kurunthogai_poems.append(kurunthogai_poem)
+                        # print("இயற்றியவர்  : ", kurunthogai_poem_loop_element.poet_name)
+                        poems_in_a_page.append(kurunthogai_poem)
                         # break
         # print("==========================================================\n")
-        # print("Kurunthogai poems array : ", kurunthogai_poems[0])
-        # print("Poem index: ", kurunthogai_poems[0].poem_index)
-        # print("Thinai type: \n", kurunthogai_poems[0].thinai_type)
-        # print("Poem verses: ", kurunthogai_poems[0].poem_verses)
-        # print("Poet name: ", kurunthogai_poems[0].poet_name)
+        # print("Kurunthogai poems array : ", poems_in_a_page[0])
+        # print("Poem index: ", poems_in_a_page[0].poem_index)
+        # print("Thinai type: \n", poems_in_a_page[0].thinai_type)
+        # print("Poem verses: ", poems_in_a_page[0].poem_verses)
+        # print("Poet name: ", poems_in_a_page[0].poet_name)
         # print("==========================================================\n")
-        return kurunthogai_poems
+        return poems_in_a_page
 
 
-def trigger_kurunthogai_scraping(kurunthogai_page_url):
+def trigger_single_page_scraping(kurunthogai_page_url):
     beautiful_soup_tools = kurunthogai_beautiful_soup_tools.Kurunthogai_Beautiful_Soup_Tools()
     beautiful_soup_obj = beautiful_soup_tools.get_beautiful_soup_object(kurunthogai_page_url)
-    kurunthogai_poems = TamilVUScrapperTools.fetch_all_kurunthogai_poems(beautiful_soup_obj)
-    for kurunthogai_poem in kurunthogai_poems:
-        print("பாடல் எண் : ", kurunthogai_poem.poem_index)
-        print("திணை : ", kurunthogai_poem.thinai_type)
-        print("பாடல் வரிகள் :\n")
-        print(kurunthogai_poem.poem_verses)
-        print("இயற்றியவர் : ", kurunthogai_poem.poet_name)
-        print("\n")
-        break
+    kurunthogai_page = TamilVUScrapperTools.fetch_kurunthogai_page(beautiful_soup_obj)
+    return kurunthogai_page
 
 
-if __name__ == '__main__':
+def initiate_kurunthogai_scraping():
+    all_kurunthogai_poems = []
     for page_id in range(3402, 3442):
         poem_page_url = 'http://www.tamilvu.org/slet/l1220/l1220son.jsp?subid=' + str(page_id)
         print("Page to be scraped : ", poem_page_url)
         time.sleep(3)
-        trigger_kurunthogai_scraping(poem_page_url)
+        all_kurunthogai_poems.extend(trigger_single_page_scraping(poem_page_url))
         break
+    return all_kurunthogai_poems
+
+
+if __name__ == '__main__':
+    scraped_kurunthogai_poems = initiate_kurunthogai_scraping()
+    for kurunthogai_poem_loop_element in scraped_kurunthogai_poems:
+        print("பாடல் எண் : ", kurunthogai_poem_loop_element.poem_index)
+        print("திணை : ", kurunthogai_poem_loop_element.thinai_type)
+        print("பாடல் வரிகள் :\n")
+        print(kurunthogai_poem_loop_element.poem_verses)
+        print("இயற்றியவர் : ", kurunthogai_poem_loop_element.poet_name)
+        print("\n")
+        # break
