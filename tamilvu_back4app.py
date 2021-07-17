@@ -1,3 +1,5 @@
+import time
+
 import requests
 import json
 from local_config import *
@@ -21,7 +23,6 @@ def get_headers():
         'X-Parse-REST-API-Key': BACK4APP_PARSE_API_KEY,
         'Content-Type': 'application/json'
     }
-
 
 def update_is_tweeted(kurunthogai_poem_object_id):
     kurunthogai_update_url = KURUNTHOGAI_POEMS_DB_URL + SLASH_DELIMITER + kurunthogai_poem_object_id
@@ -73,8 +74,10 @@ class TamilVUBack4AppTools():
         return song
 
     def populate_kurunthogai_in_db(self, poem_payload):
+        if poem_payload is None:
+            pass
         # poem_payload = get_sample_poem()
-        if None != poem_payload:
+        else:
             print("\n json dump : ", json.dumps(poem_payload))
             kurunthogai_request_headers = get_headers()
             create_kurunthogai_status = requests.post(KURUNTHOGAI_POEMS_DB_URL,
@@ -83,17 +86,21 @@ class TamilVUBack4AppTools():
             print("Kurunthogai DB population activity status : ", create_kurunthogai_status)
         return create_kurunthogai_status
 
-    def store_all_kurunthogai_songs(self, kurunthogai_poems):
+    def store_all_kurunthogai_songs(self, scraped_kurunthogai_poems):
         poem_index = 1
         kurunthogai_payloads = []
-        for kurunthogai_poem in kurunthogai_poems:
-            kurunthogai_poem_json_text = get_kurunthogai_json(kurunthogai_poem, None)
-            # kurunthogai_json_dump = json.dumps(kurunthogai_poem_json_text)
-            print("\n\n பாடல் : ", poem_index, "\n", kurunthogai_poem_json_text)
-            # print("JSON dump : ", kurunthogai_json_dump)
-            # kurunthogai_payloads.extend(kurunthogai_json_dump)
-            self.populate_kurunthogai_in_db(kurunthogai_poem_json_text)
+        for scraped_kurunthogai_poem in scraped_kurunthogai_poems:
+            kurunthogai_poem_json = get_kurunthogai_json(scraped_kurunthogai_poem)
+            # kurunthogai_json_dump = json.dumps(kurunthogai_poem_json)
+            print("\n\n பாடல் : ", poem_index, "\n", kurunthogai_poem_json)
+            print("JSON dump : ", kurunthogai_poem_json)
+            kurunthogai_payloads.extend(kurunthogai_poem_json)
+            time.sleep(1)
+            self.populate_kurunthogai_in_db(kurunthogai_poem_json)
             poem_index = poem_index + 1
+        print("Kurunthogai poems stored in DB : ", kurunthogai_payloads)
+        print("Total number of poems stored in DB : ", poem_index)
+        return kurunthogai_payloads
 
 
 if __name__ == "__main__":
