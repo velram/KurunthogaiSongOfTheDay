@@ -21,7 +21,7 @@ TWITTER_ACCESS_TOKEN_SECRET = os.getenv('twitter_access_token_secret')
 # Back4App configuration
 BACK4APP_PARSE_API_KEY = os.getenv('back_4_app_api_key')
 BACK4APP_PARSE_API_APP_ID = os.getenv('back_4_app_parse_application_id')
-
+BACK4APP_KURUNTHOGAI_DB_URL = os.getenv('back4app_kurunthogai_db_url')
 # Tweet schedule
 
 TWEET_SCHEDULE_DAY = os.getenv('tweet_schedule_day')

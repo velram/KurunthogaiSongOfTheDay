@@ -42,10 +42,10 @@ class TamilVUScrapperTools:
                                 poem_element.get_text().strip():
                             if poem_element.get_text().strip().find("\r\n") != -1:
                                 poem_verse = poem_element.get_text().strip().replace("\r\n", "")
-                                poem_verses = poem_verses + poem_verse + '\n'
+                                poem_verses = poem_verses + poem_verse
                             else:
                                 poem_verse = poem_element.get_text().strip()
-                                poem_verses = poem_verses + poem_verse + '\n'
+                                poem_verses = poem_verses + poem_verse
                     kurunthogai_poem.poem_verses = poem_verses
                     # print(kurunthogai_poem_loop_element.poem_verses)
                     poet_name_table = poem_table.findNext('table')
@@ -61,7 +61,7 @@ class TamilVUScrapperTools:
                         # break
         # print("==========================================================\n")
         # print("Kurunthogai poems array : ", poems_in_a_page[0])
-        # print("Poem index: ", poems_in_a_page[0].poem_index)
+        # print("Poem index: ", poems_in_a_page[0].poem)
         # print("Thinai type: \n", poems_in_a_page[0].thinai_type)
         # print("Poem verses: ", poems_in_a_page[0].poem_verses)
         # print("Poet name: ", poems_in_a_page[0].poet_name)
@@ -84,16 +84,18 @@ class TamilVUScrapperTools:
             time.sleep(3)
             kurunthogai_page = TamilVUScrapperTools.trigger_single_page_scraping(poem_page_url)
             all_kurunthogai_poems.extend(kurunthogai_page)
+            # break
         return all_kurunthogai_poems
 
 
 if __name__ == '__main__':
     tamilvu_scrapper_tools = TamilVUScrapperTools()
     scraped_kurunthogai_poems = TamilVUScrapperTools.initiate_kurunthogai_scraping()
+    # Following code used to test Web scraping work flow
     for kurunthogai_poem_loop_element in scraped_kurunthogai_poems:
         print("பாடல் எண் : ", kurunthogai_poem_loop_element.poem_index)
         print("திணை :", kurunthogai_poem_loop_element.thinai_type.strip())
-        print("பாடல் வரிகள் :\n")
+        print("பாடல் வரிகள் :")
         print(kurunthogai_poem_loop_element.poem_verses)
         print("இயற்றியவர் : ", kurunthogai_poem_loop_element.poet_name)
         print("\n")

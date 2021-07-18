@@ -6,7 +6,7 @@ from local_config import *
 
 RESULTS_KEY = 'results'
 
-KURUNTHOGAI_POEMS_DB_URL = "https://parseapi.back4app.com/classes/KurunthogaiPoems"
+# KURUNTHOGAI_POEMS_DB_URL = "https://parseapi.back4app.com/classes/KurunthogaiPoem"
 POEM_TEXT_KEY = 'kurunthogai_poem_loop_element'
 POEM_INDEX_KEY = 'poem_id'
 POEM_AUTHOR_KEY = 'poet_name'
@@ -25,7 +25,7 @@ def get_headers():
     }
 
 def update_is_tweeted(kurunthogai_poem_object_id):
-    kurunthogai_update_url = KURUNTHOGAI_POEMS_DB_URL + SLASH_DELIMITER + kurunthogai_poem_object_id
+    kurunthogai_update_url = BACK4APP_KURUNTHOGAI_DB_URL + SLASH_DELIMITER + kurunthogai_poem_object_id
     kurunthogai_update_payload = {POEM_TWEETED_KEY: True}
     kurunthogai_req_headers = get_headers()
     kurunthogai_db_update_response = requests.put(kurunthogai_update_url,
@@ -58,7 +58,7 @@ def get_kurunthogai_json(kurunthogai_poem):
 class TamilVUBack4AppTools():
     def fetch_kurunthogai_song(self):
         header = get_headers()
-        kurunthogai_db_url_with_filter = KURUNTHOGAI_POEMS_DB_URL + KURUNTHOGAI_NON_TWEETED_FILTER_QUERY
+        kurunthogai_db_url_with_filter = BACK4APP_KURUNTHOGAI_DB_URL + KURUNTHOGAI_NON_TWEETED_FILTER_QUERY
         query_results = requests.get(kurunthogai_db_url_with_filter, headers=header)
         query_results_json = query_results.json()
 
@@ -80,10 +80,11 @@ class TamilVUBack4AppTools():
         else:
             print("\n json dump : ", json.dumps(poem_payload))
             kurunthogai_request_headers = get_headers()
-            create_kurunthogai_status = requests.post(KURUNTHOGAI_POEMS_DB_URL,
+            create_kurunthogai_status = requests.post(BACK4APP_KURUNTHOGAI_DB_URL,
                                                       data=json.dumps(poem_payload),
                                                       headers=kurunthogai_request_headers)
-            print("Kurunthogai DB population activity status : ", create_kurunthogai_status)
+            print("poem index : ", poem_payload.get('index'),
+                  "HTTP response code : ",  create_kurunthogai_status)
         return create_kurunthogai_status
 
     def store_all_kurunthogai_songs(self, scraped_kurunthogai_poems):
@@ -95,9 +96,12 @@ class TamilVUBack4AppTools():
             print("\n\n பாடல் : ", poem_index, "\n", kurunthogai_poem_json)
             print("JSON dump : ", kurunthogai_poem_json)
             kurunthogai_payloads.extend(kurunthogai_poem_json)
-            time.sleep(1)
+            time.sleep(5)
+            print('Populating in DB - Poem#', poem_index)
             self.populate_kurunthogai_in_db(kurunthogai_poem_json)
             poem_index = poem_index + 1
+            print('Populated a poem in DB')
+            print("=========================================\n\n ")
         print("Kurunthogai poems stored in DB : ", kurunthogai_payloads)
         print("Total number of poems stored in DB : ", poem_index)
         return kurunthogai_payloads
