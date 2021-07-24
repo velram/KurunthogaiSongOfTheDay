@@ -28,6 +28,8 @@ TWEET_SCHEDULE_DAY = os.getenv('tweet_schedule_day')
 TWEET_SCHEDULE_HOUR = os.getenv('tweet_schedule_hour')
 TWEET_SCHEDULE_MINUTE = os.getenv('tweet_schedule_minute')
 
+TWITTER_HASHTAG = os.getenv('twitter_hashtag')
+
 if __name__ == '__main__':
     # print("Enable tweeting : ", ENABLE_TWITTER_POSTING)
     # print("Tweet schedule hour tweeting : ", int(TWEET_SCHEDULE_HOUR))
