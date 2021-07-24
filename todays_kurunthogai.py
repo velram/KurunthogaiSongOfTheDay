@@ -1,6 +1,5 @@
 import back4app
-import kurunthogai_poem_urls_scrapper
-import kurunthogai_poems_scrapper
+from wikisource import kurunthogai_poems_scrapper, kurunthogai_poem_urls_scrapper
 import kurunthogai_beautiful_soup_tools
 import kurunthogai_tweeter
 from local_config import *

@@ -1,7 +1,5 @@
 import tamilvu_back4app
-import kurunthogai_poem_urls_scrapper
-import kurunthogai_poems_scrapper
-import kurunthogai_beautiful_soup_tools
+from wikisource import kurunthogai_poem_urls_scrapper
 import kurunthogai_tweeter
 from local_config import *
 from kurunthogai_tamilvu_poems_scrapper import TamilVUScrapperTools
