@@ -20,3 +20,8 @@ class KurunthogaiTweeterTools:
         else:
             print("TOO LONG: " + kurunthogai_poem)
         return twit_status
+
+
+if __name__ == '__main__':
+    kurunthogai_tweeter = KurunthogaiTweeterTools()
+    kurunthogai_tweeter.tweet_kurunthogai("Twitter API - சோதனைச் செய்தி")

@@ -66,7 +66,7 @@ class Back4AppTools():
             print('song to be updated is  : ', kurunthogai_poem_json_response)
             poem_with_author = ('%s \n' %
                                 (kurunthogai_poem_json_response[POEM_TEXT_KEY]))
-            song = poem_with_author + '\n' + DAILY_ONE_KURUNTHOGAI_HASHTAG
+            song = poem_with_author + '\n' + TWITTER_HASHTAG
             print('song to be updated is  : ', kurunthogai_poem_json_response[OBJECT_ID_KEY])
             update_is_tweeted(kurunthogai_poem_json_response[OBJECT_ID_KEY])
         return song

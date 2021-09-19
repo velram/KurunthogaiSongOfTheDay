@@ -1,7 +1,5 @@
-from datetime import datetime
-
 from apscheduler.schedulers.blocking import BlockingScheduler
-import todays_kurunthogai
+from wikisource import todays_kurunthogai
 from local_config import *
 
 tweet_scheduler = BlockingScheduler()
